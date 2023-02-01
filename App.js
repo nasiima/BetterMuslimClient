@@ -1,11 +1,11 @@
 import React from 'react';
-import Reminders from './components/reminders';
+import Auth from './components/auth';
 
 
 
 export default function App() {
   return (
-   <Reminders/>
+   <Auth/>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, AsyncStorage, TouchableOpacity } from 'react-native';
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AppLoading from 'expo-app-loading';
 
 
   // let [fontsLoaded] = useFonts({
@@ -12,10 +12,10 @@ import AppLoading from 'expo-app-loading';
   //   return <AppLoading />;
   // }
 
-  import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+  // import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 
-  
+
 
 export default function Auth(props) {
 
