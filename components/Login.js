@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//  import { useNavigation } from '@react-navigation/native';
+  // import { useNavigation } from '@react-navigation/native';
 
 
 
 
-export default function Login(props) {
+export default function Login({ navigation }) {
   // const navigation = useNavigation(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ export default function Login(props) {
   }
   const getData = async () => {
     const token = await AsyncStorage.getItem('MR_Token');
-    if (token) props.navigation.navigate("MovieList");
+    if (token) props.navigation.navigate("Reminders");
   }
 
   const login = () => {
@@ -52,7 +52,7 @@ export default function Login(props) {
       })
       .then( res => {
           saveData(res.token);
-          props.navigation.navigate("MovieList");
+          props.navigation.navigate("Reminers");
       })
       .catch(error => {
         console.log(error)
@@ -107,12 +107,12 @@ export default function Login(props) {
       </Button>
       <TouchableOpacity >
         <Text style={styles.viewText}>Don't have an account?</Text>
-        {/* <Button
+        <Button
        onPress={() => navigation.navigate('Register')}
         title="Go to Registration"
       >
         Register here
-      </Button> */}
+      </Button>
       </TouchableOpacity>
 
     </View>
