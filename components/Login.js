@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
       'password': password
     })
 
-    fetch(`http://127.0.0.1:8000/api/v1.0/user/loginuser/`, {
+    fetch(`http://127.0.0.1:8000/api/loginuser/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
