@@ -8,23 +8,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Register({ navigation }) {
   // const navigation = useNavigation(); 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [securePassword, setSecurePassword] = useState(true)
+  const [email, setEmail] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
 
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    getData();
-  }, [])
+//   useEffect(() => {
+//     getData();
+//   }, [])
 
   const saveData = async (token) => {
     await AsyncStorage.setItem('MR_Token', token)
   }
-  const getData = async () => {
-    const token = await AsyncStorage.getItem('MR_Token');
-    if (token) props.navigation.navigate("Reminders");
-  }
+//   const getData = async () => {
+//     const token = await AsyncStorage.getItem('MR_Token');
+//     if (token) props.navigation.navigate("Reminders");
+//   }
 
   const register = () => {
  
@@ -32,6 +34,9 @@ export default function Register({ navigation }) {
 
     let body = JSON.stringify({
       'username': email.toLowerCase(),
+      'email': email.toLowerCase(),
+      'first_name': firstName,
+      'last_name': lastName,
       'password': password
     })
 
@@ -46,13 +51,13 @@ export default function Register({ navigation }) {
         if (res.ok) {
           return res.json()
         } else {
-          setError("Invalid Credentials")
+          setError("User already exsist")
           throw res.json()
         }
       })
       .then( res => {
           saveData(res.token);
-          props.navigation.navigate("Reminers");
+        //   props.navigation.navigate("Login");
       })
       .catch(error => {
         console.log(error)
@@ -78,6 +83,28 @@ export default function Register({ navigation }) {
         </View>
         {/* <View style={{flex: 1,  margin:40, height: 0.5, backgroundColor: 'grey'}} /> */}
       </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="First Name"
+        onChangeText={text => setFirstName(text)}
+        value={firstName}
+        autoCapitalize={'none'}
+        justifyContent={'flex-end'}
+        padding={10}
+      />
+
+<TextInput
+        style={styles.input}
+        placeholder="Last Name"
+        onChangeText={text => setLastName(text)}
+        value={lastName}
+        autoCapitalize={'none'}
+        justifyContent={'flex-end'}
+        padding={10}
+      />
+
+
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -87,16 +114,24 @@ export default function Register({ navigation }) {
         justifyContent={'flex-end'}
         padding={10}
       />
+    
+
+  
+
+  
       {/* <Text style={styles.label}>Password</Text> */}
       <TextInput
         style={styles.input}
         placeholder="Password"
         onChangeText={text => setPassword(text)}
         value={password}
-        secureTextEntry={true}
+        secureTextEntry={securePassword}
         autoCapitalize={'none'}
         padding={10}
         marginBottom={10}
+        textContentType="password"
+        autoCompleteType="password"
+
       />
 
       <Button

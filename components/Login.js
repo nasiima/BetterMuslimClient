@@ -14,17 +14,15 @@ export default function Login({ navigation }) {
 
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    getData();
-  }, [])
+
 
   const saveData = async (token) => {
     await AsyncStorage.setItem('MR_Token', token)
   }
-  const getData = async () => {
-    const token = await AsyncStorage.getItem('MR_Token');
-    if (token) props.navigation.navigate("Reminders");
-  }
+  // const getData = async () => {
+  //   const token = await AsyncStorage.getItem('MR_Token');
+  //   if (token) props.navigation.navigate("Reminders");
+  // }
 
   const login = () => {
  
