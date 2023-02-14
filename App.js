@@ -11,8 +11,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 const AppNavigator = createStackNavigator({
   Login: {screen: Login},
-  Register: {screen: Register},
-  Reminders: {screen: Reminders}
+  Reminders: {screen: Reminders},
+  Register: {screen: Register}
  
 })
 

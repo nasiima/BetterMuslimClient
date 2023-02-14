@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-  // import { useNavigation } from '@react-navigation/native';
+ 
 
 
 
@@ -14,15 +14,17 @@ export default function Login({ navigation }) {
 
   const [error, setError] = useState(null);
 
-
+  useEffect(()=> {
+    getData();
+  }, [])
 
   const saveData = async (token) => {
     await AsyncStorage.setItem('MR_Token', token)
   }
-  // const getData = async () => {
-  //   const token = await AsyncStorage.getItem('MR_Token');
-  //   if (token) props.navigation.navigate("Reminders");
-  // }
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('MR_Token');
+    if (token) navigation.navigate("Reminders");
+  }
 
   const login = () => {
  
@@ -40,23 +42,16 @@ export default function Login({ navigation }) {
       },
       body:body
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          setError("Invalid Credentials")
-          throw res.json()
-        }
-      })
-      .then( res => {
-          saveData(res.token);
-          props.navigation.navigate("Reminers");
-      })
-      .catch(error => {
-        console.log(error)
-      })
 
-  }
+    .then( res => res.json())
+    .then( res => {
+      saveData(res.token);
+      navigation.navigate('Reminders');
+    })
+    .catch( error => console.log(error));
+}
+
+  
 
 
 

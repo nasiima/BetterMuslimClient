@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-  // import { useNavigation } from '@react-navigation/native';
 
 
 
 
 export default function Register({ navigation }) {
-  // const navigation = useNavigation(); 
+
   const [securePassword, setSecurePassword] = useState(true)
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -16,19 +14,8 @@ export default function Register({ navigation }) {
   const [error, setError] = useState("")
 
 
-//   useEffect(() => {
-//     getData();
-//   }, [])
 
-  const saveData = async (token) => {
-    await AsyncStorage.setItem('MR_Token', token)
-  }
-//   const getData = async () => {
-//     const token = await AsyncStorage.getItem('MR_Token');
-//     if (token) props.navigation.navigate("Reminders");
-//   }
-
-  const register = () => {
+const register = () => {
  
     setError("")
 
@@ -47,25 +34,13 @@ export default function Register({ navigation }) {
       },
       body:body
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          setError("User already exsist")
-          throw res.json()
-        }
-      })
+      .then( res => res.json())
       .then( res => {
-          saveData(res.token);
-        //   props.navigation.navigate("Login");
+        navigation.navigate('Login');
       })
-      .catch(error => {
-        console.log(error)
-      })
+      .catch( error => console.log(error));
 
   }
-
-
 
   return (
 
