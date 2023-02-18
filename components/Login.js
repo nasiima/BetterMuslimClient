@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity , Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
- 
+import gmailicon from '/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png';
+
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 
 
-
+WebBrowser.maybeCompleteAuthSession();
 
 export default function Login({ navigation }) {
   // const navigation = useNavigation(); 
@@ -14,7 +17,7 @@ export default function Login({ navigation }) {
 
   const [error, setError] = useState(null);
 
-  useEffect(()=> {
+  useEffect(() => {
     getData();
   }, [])
 
@@ -27,7 +30,7 @@ export default function Login({ navigation }) {
   }
 
   const login = () => {
- 
+
     setError("")
 
     let body = JSON.stringify({
@@ -40,18 +43,57 @@ export default function Login({ navigation }) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body:body
-      })
-
-    .then( res => res.json())
-    .then( res => {
-      saveData(res.token);
-      navigation.navigate('Reminders');
+      body: body
     })
-    .catch( error => console.log(error));
-}
 
-  
+      .then(res => res.json())
+      .then(res => {
+        saveData(res.token);
+        navigation.navigate('Reminders');
+      })
+      .catch(error => console.log(error));
+  }
+
+
+  // GOOGLE AUTH
+
+  const [accessToken, setAccessToken] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: "614056587655-5uc97sg5l7f8qlsq3o6ubufr5b0vrn11.apps.googleusercontent.com",
+    iosclientId: "614056587655-22isstt848ak449l64l4e8nnokrr2e3j.apps.googleusercontent.com"
+    // androidClientId: ""
+  });
+  React.useEffect(() => {
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      accessToken && fetchUserInfo();
+
+    }
+  }, [response, accessToken])
+
+
+
+  async function fetchUserInfo() {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    const useInfo = await response.json();
+    setUser(useInfo);
+  }
+  const ShowUserInfo = () => {
+    if (user) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
+          <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
+        </View>
+      )
+    }
+  }
 
 
 
@@ -61,15 +103,25 @@ export default function Login({ navigation }) {
     <View style={styles.container} >
       <Text style={styles.label} >BetterMuslim</Text>
 
-      <Text style={styles.qutoes}>Smile because it's sunnah muslim :)</Text>
-      <Text style={styles.google}>Continue with Google</Text>
-      <Text style={styles.apple}> Continue with Apple</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {/* <View style={{flex: 1,   margin:40, height: 0.5, backgroundColor: 'grey'}} /> */}
-        <View>
-          <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
+      <Text style={styles.qutoes}>For surely, the reminding benefits the believers</Text>
+      <TouchableOpacity disabled={!request}
+        onPress={() => {
+          promptAsync();
+        }} style={styles.google}>
+           <View style={styles.googleContent}>
+        <View style={styles.googleIcon}>
+          <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
         </View>
-        {/* <View style={{flex: 1,  margin:40, height: 0.5, backgroundColor: 'grey'}} /> */}
+        <Text style={styles.googletxt}>Continue with Google</Text>
+      </View>
+    </TouchableOpacity>
+      <Text style={styles.apple}> Continue with Apple</Text>
+
+
+
+
+      <View>
+        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
       </View>
       <TextInput
         style={styles.input}
@@ -101,11 +153,11 @@ export default function Login({ navigation }) {
       <TouchableOpacity >
         <Text style={styles.viewText}>Don't have an account?</Text>
         <Button
-       onPress={() => navigation.navigate('Register')}
-        title="Go to Registration"
-      >
-        Register here
-      </Button>
+          onPress={() => navigation.navigate('Register')}
+          title="Go to Registration"
+        >
+          Register here
+        </Button>
       </TouchableOpacity>
 
     </View>
@@ -183,8 +235,26 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 10,
     textAlign: 'center',
-    color: 'grey'
+    color: 'grey',
+    alignItems: 'center',
    
+  },
+  googleContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  googleIcon: {
+    marginRight: 10,
+  },
+  googleImage: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  googletxt: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: 'grey',
   },
   apple: {
     fontSize: 14,
