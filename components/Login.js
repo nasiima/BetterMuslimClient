@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity , Image} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import gmailicon from '/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png';
+
 
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -9,7 +9,7 @@ import * as WebBrowser from 'expo-web-browser';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function Login({ navigation }) {
+export default function Login({ navigation, props }) {
   // const navigation = useNavigation(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -83,24 +83,26 @@ export default function Login({ navigation }) {
     const useInfo = await response.json();
     setUser(useInfo);
   }
-  const ShowUserInfo = () => {
-    if (user) {
-      return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
-          <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
-        </View>
-      )
-    }
-  }
+  // const ShowUserInfo = () => {
+  //   if (user) {
+  //     return (
+  //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  //         <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
+  //         <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
+  //         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
+  //       </View>
+  //     )
+  //   }
+  // }
 
 
 
+  // const { onPress, title = 'Create Account' } = props;
   return (
 
 
     <View style={styles.container} >
+      <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} />
       <Text style={styles.label} >BetterMuslim</Text>
 
       <Text style={styles.qutoes}>For surely, the reminding benefits the believers</Text>
@@ -108,20 +110,17 @@ export default function Login({ navigation }) {
         onPress={() => {
           promptAsync();
         }} style={styles.google}>
-           <View style={styles.googleContent}>
-        <View style={styles.googleIcon}>
-          <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
+        <View style={styles.googleContent}>
+          <View style={styles.googleIcon}>
+            <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
+          </View>
+          <Text style={styles.googletxt}>Continue with Google</Text>
         </View>
-        <Text style={styles.googletxt}>Continue with Google</Text>
-      </View>
-    </TouchableOpacity>
-      <Text style={styles.apple}> Continue with Apple</Text>
+      </TouchableOpacity>
 
-
-
-
+ 
       <View>
-        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
+        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>──────────  or  ────────── </Text>
       </View>
       <TextInput
         style={styles.input}
@@ -144,20 +143,21 @@ export default function Login({ navigation }) {
         marginBottom={10}
       />
 
-      <Button
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => login()}
-        title="Login"
       >
-        Login
-      </Button>
+        <Text style={styles.logintxt}>Login</Text>
+      </TouchableOpacity>
+
+
       <TouchableOpacity >
-        <Text style={styles.viewText}>Don't have an account?</Text>
+        <Text style={styles.dntact}>Don't have an account?</Text>
+
         <Button
-          onPress={() => navigation.navigate('Register')}
-          title="Go to Registration"
-        >
-          Register here
-        </Button>
+          color='green'
+          title="Create Account"
+          onPress={() => navigation.navigate('Register')} />
       </TouchableOpacity>
 
     </View>
@@ -172,7 +172,7 @@ Login.navigationOptions = screenProps => ({
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
-    fontSize:24
+    fontSize: 24
   }
 })
 
@@ -183,18 +183,24 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 15
   },
+  islamImage: {
+    width: 70,
+    height: 70,
+    marginBottom: 50,
+
+    resizeMode: 'contain',
+  },
+
   label: {
     fontSize: 30,
     color: 'black',
-    // padding: 10,
     fontWeight: 'bold',
-    // fontFamily: 'Merriweather-Bold'
   },
   qutoes: {
     fontSize: 15,
-    // color: 'grey',
-     paddingTop: 15
+    paddingTop: 15
   },
   input: {
     fontSize: 18,
@@ -205,24 +211,34 @@ const styles = StyleSheet.create({
     margin: 5,
     width: "80%",
     borderRadius: 10,
-    
+
   },
-  viewText: {
-    color: 'green',
-    fontSize: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 10,
-    textAlign: 'center',
-  
-  },
-  viewFirstText: {
+  dntact: {
     color: 'grey',
-    fontSize: 15,
+    fontSize: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 90,
     textAlign: 'center',
+
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'green',
+    padding: 10,
+    height: 50,
+    margin: 5,
+    width: "80%",
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logintxt: {
+    color: 'white',
+    fontSize: 17,
+    justifyContent: 'center',
+    textAlign: 'center',
+
   },
   google: {
     fontSize: 14,
@@ -230,14 +246,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderColor: 'gray',
-     borderWidth: 1,
+    borderWidth: 1,
     margin: 5,
     width: "80%",
     borderRadius: 10,
     textAlign: 'center',
     color: 'grey',
     alignItems: 'center',
-   
   },
   googleContent: {
     flexDirection: 'row',
@@ -256,28 +271,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'grey',
   },
-  apple: {
-    fontSize: 14,
-    backgroundColor: 'white',
-    padding: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    // margin: 1,
-    width: "80%",
-    borderRadius: 10,
-    textAlign: 'center',
-    color: 'grey'
-  },
   or: {
     padding: 22,
     color: 'grey'
   }
-//   appButtonContainer: {
-//     borderColor: 'gray',
-//     borderWidth: 1,
-//    margin: 5,
-//    width: "80%",
-//    borderRadius: 10,
-//   }
 
 });
