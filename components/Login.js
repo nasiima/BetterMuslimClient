@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity , Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import gmailicon from '/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png';
+
 
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -115,7 +115,22 @@ export default function Login({ navigation }) {
         <Text style={styles.googletxt}>Continue with Google</Text>
       </View>
     </TouchableOpacity>
-      <Text style={styles.apple}> Continue with Apple</Text>
+
+    <TouchableOpacity 
+    style={styles.apple}>
+           <View style={styles.appleContent}>
+        <View style={styles.appleIcon}>
+          <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/appleIcon.png')} style={styles.appleImage} />
+        </View>
+        <Text style={styles.appletxt}>Continue with Apple</Text>
+      </View>
+    </TouchableOpacity>
+
+
+
+
+
+   
 
 
 
@@ -258,15 +273,34 @@ const styles = StyleSheet.create({
   },
   apple: {
     fontSize: 14,
+    // marginTop: 45,
     backgroundColor: 'white',
     padding: 10,
     borderColor: 'gray',
-    borderWidth: 1,
-    // margin: 1,
+     borderWidth: 1,
+    margin: 5,
     width: "80%",
     borderRadius: 10,
     textAlign: 'center',
-    color: 'grey'
+    color: 'grey',
+    alignItems: 'center',
+  },
+  appleContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  appleIcon: {
+    marginRight: 10,
+  },
+  appleImage: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  appletxt: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: 'grey',
   },
   or: {
     padding: 22,
