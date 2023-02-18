@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image } from 'react-native';
 
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 
 
@@ -42,22 +47,56 @@ const register = () => {
 
   }
 
+    // GOOGLE AUTH
+
+    const [accessToken, setAccessToken] = React.useState(null);
+    const [user, setUser] = React.useState(null);
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+      clientId: "614056587655-5uc97sg5l7f8qlsq3o6ubufr5b0vrn11.apps.googleusercontent.com",
+      iosclientId: "614056587655-22isstt848ak449l64l4e8nnokrr2e3j.apps.googleusercontent.com"
+      // androidClientId: ""
+    });
+    React.useEffect(() => {
+      if (response?.type === "success") {
+        setAccessToken(response.authentication.accessToken);
+        accessToken && fetchUserInfo();
+  
+      }
+    }, [response, accessToken])
+  
+  
+  
+    async function fetchUserInfo() {
+      let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      const useInfo = await response.json();
+      setUser(useInfo);
+    }
+
   return (
 
 
     <View style={styles.container} >
+       <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} />
       <Text style={styles.label} >BetterMuslim</Text>
 
       <Text style={styles.qutoes}>Smile because it's sunnah muslim :)</Text>
-      <Text style={styles.google}>Continue with Google</Text>
-      <Text style={styles.apple}> Continue with Apple</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {/* <View style={{flex: 1,   margin:40, height: 0.5, backgroundColor: 'grey'}} /> */}
-        <View>
-          <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
+      <TouchableOpacity disabled={!request}
+        onPress={() => {
+          promptAsync();
+        }} style={styles.google}>
+           <View style={styles.googleContent}>
+        <View style={styles.googleIcon}>
+          <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
         </View>
-        {/* <View style={{flex: 1,  margin:40, height: 0.5, backgroundColor: 'grey'}} /> */}
+        <Text style={styles.googletxt}>Continue with Google</Text>
       </View>
+    </TouchableOpacity>
+          <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
+       
 
       <TextInput
         style={styles.input}
@@ -109,19 +148,28 @@ const register = () => {
 
       />
 
-      <Button
+      {/* <Button
         onPress={() => register()}
         title="Register"
       >
         Register
-      </Button>
+      </Button> */}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => register()}
+      >
+        <Text style={styles.registertxt}>Register</Text>
+      </TouchableOpacity>
+
+
       <TouchableOpacity >
-        <Text style={styles.viewText}>Already have an account?</Text>
+        <Text style={styles.alract}>Already have an account?</Text>
         <Button
        onPress={() => navigation.navigate('Login')}
         title="Go to Login"
+        color='green'
       >
-        Go to Login
       </Button>
       </TouchableOpacity>
 
@@ -149,12 +197,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  islamImage: {
+    width: 70,
+    height: 70,
+    marginBottom: 50,
+
+    resizeMode: 'contain',
+  },
   label: {
     fontSize: 30,
     color: 'black',
     // padding: 10,
     fontWeight: 'bold',
     // fontFamily: 'Merriweather-Bold'
+  },
+  alract: {
+    color: 'grey',
+    fontSize: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    textAlign: 'center',
+
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'green',
+    padding: 10,
+    height: 50,
+    margin: 5,
+    width: "80%",
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  registertxt: {
+    color: 'white',
+    fontSize: 17,
+    justifyContent: 'center',
+    textAlign: 'center',
+
   },
   qutoes: {
     fontSize: 15,
@@ -172,23 +254,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     
   },
-  viewText: {
-    color: 'green',
-    fontSize: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 10,
-    textAlign: 'center',
-  
-  },
-  viewFirstText: {
-    color: 'grey',
-    fontSize: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-    textAlign: 'center',
-  },
+
   google: {
     fontSize: 14,
     marginTop: 45,
@@ -200,20 +266,26 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 10,
     textAlign: 'center',
-    color: 'grey'
+    color: 'grey',
+    alignItems: 'center',
    
   },
-  apple: {
+  googleContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  googleIcon: {
+    marginRight: 10,
+  },
+  googleImage: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  googletxt: {
     fontSize: 14,
-    backgroundColor: 'white',
-    padding: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    // margin: 1,
-    width: "80%",
-    borderRadius: 10,
     textAlign: 'center',
-    color: 'grey'
+    color: 'grey',
   },
   or: {
     padding: 22,
