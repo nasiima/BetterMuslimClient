@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Button } from 'react-native';
-
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Reminders(props) {
@@ -34,34 +34,36 @@ export default function Reminders(props) {
     .catch( error => console.log(error));
   }
 
-  // const movieclicked = (movie) => {
-  //   props.navigation.navigate("Detail", {movie: movie, title: movie.title, token: token})
-  // }
+
+  const handleLogout = async () => {
+    token = await AsyncStorage.getItem('MR_Token');
+    try {
+      await AsyncStorage.removeItem(token);
+      props.navigation.navigate("Login")
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
 
-
+      
 
   return (
     <View style={styles.container}>
       <Text>Hello User this is the reminders page!</Text>
-      {/* <Text>{reminders.title}</Text>
-      <Text>{reminders.text}</Text> */}
-
-      <FlatList 
-        data={reminders}
-        renderItem={({item}) => (
-        // <TouchableOpacity onPress={() => movieclicked(item)}>
-        <View >
-          <Text >{item.title}</Text>
-          <Text >{item.text}</Text>
-        </View>
-      // </TouchableOpacity>
-    )}
-    keyExtractor={(item, index) => index.toString()}
-  />
+    
+      <Button onPress={() => handleLogout()}
+        title="Logout"
+      >
+        Logout
+      </Button>
     </View>
   );
 }
+
+
+
+
 Reminders.navigationOptions = screenProps => ({
   title: "Reminders",
   headerStyle: {
