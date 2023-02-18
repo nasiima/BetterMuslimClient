@@ -83,17 +83,18 @@ export default function Login({ navigation }) {
     const useInfo = await response.json();
     setUser(useInfo);
   }
-  const ShowUserInfo = () => {
-    if (user) {
-      return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
-          <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
-        </View>
-      )
-    }
-  }
+  // const ShowUserInfo = () => {
+  //   if (user) {
+  //     return (
+  //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  //         <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
+  //         <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
+  //         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
+  //       </View>
+  //     )
+  //   }
+  // }
+
 
 
 
@@ -117,7 +118,7 @@ export default function Login({ navigation }) {
       </View>
     </TouchableOpacity>
 
-    <TouchableOpacity 
+    {/* <TouchableOpacity 
     style={styles.apple}>
            <View style={styles.appleContent}>
         <View style={styles.appleIcon}>
@@ -125,7 +126,7 @@ export default function Login({ navigation }) {
         </View>
         <Text style={styles.appletxt}>Continue with Apple</Text>
       </View>
-    </TouchableOpacity>
+    </TouchableOpacity> */}
 
 
 
@@ -273,37 +274,37 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'grey',
   },
-  apple: {
-    fontSize: 14,
-    // marginTop: 45,
-    backgroundColor: 'white',
-    padding: 10,
-    borderColor: 'gray',
-     borderWidth: 1,
-    margin: 5,
-    width: "80%",
-    borderRadius: 10,
-    textAlign: 'center',
-    color: 'grey',
-    alignItems: 'center',
-  },
-  appleContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  appleIcon: {
-    marginRight: 10,
-  },
-  appleImage: {
-    width: 24,
-    height: 24,
-    resizeMode: 'contain',
-  },
-  appletxt: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: 'grey',
-  },
+  // apple: {
+  //   fontSize: 14,
+  //   // marginTop: 45,
+  //   backgroundColor: 'white',
+  //   padding: 10,
+  //   borderColor: 'gray',
+  //    borderWidth: 1,
+  //   margin: 5,
+  //   width: "80%",
+  //   borderRadius: 10,
+  //   textAlign: 'center',
+  //   color: 'grey',
+  //   alignItems: 'center',
+  // },
+  // appleContent: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  // },
+  // appleIcon: {
+  //   marginRight: 10,
+  // },
+  // appleImage: {
+  //   width: 24,
+  //   height: 24,
+  //   resizeMode: 'contain',
+  // },
+  // appletxt: {
+  //   fontSize: 14,
+  //   textAlign: 'center',
+  //   color: 'grey',
+  // },
   or: {
     padding: 22,
     color: 'grey'
