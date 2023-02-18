@@ -101,6 +101,7 @@ export default function Login({ navigation }) {
 
 
     <View style={styles.container} >
+       <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} />
       <Text style={styles.label} >BetterMuslim</Text>
 
       <Text style={styles.qutoes}>For surely, the reminding benefits the believers</Text>
@@ -128,15 +129,8 @@ export default function Login({ navigation }) {
 
 
 
-
-
-   
-
-
-
-
       <View>
-        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
+        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>──────────  or  ────────── </Text>
       </View>
       <TextInput
         style={styles.input}
@@ -198,6 +192,14 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 15
+  },
+  islamImage: {
+    width: 70,
+    height: 70,
+    marginBottom: 50,
+
+    resizeMode: 'contain',
   },
   label: {
     fontSize: 30,
