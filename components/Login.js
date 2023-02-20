@@ -115,6 +115,8 @@ export default function Login({ navigation, props }) {
       <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
       <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
+      <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
+  
       <TouchableOpacity  
  
       disabled={!request}
@@ -200,18 +202,15 @@ const styles = StyleSheet.create({
   },
   container1: {
     flex: 1,
-    // backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0, 0.50)',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
-    backgroundColor: 'rgba(0,0,0, 0.50)'
   },
   islamImage: {
     width: 70,
     height: 70,
     marginBottom: 50,
-
     resizeMode: 'contain',
   },
 
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Montserrat-Bold',
+    // fontFamily: 'Montserrat-Bold',
   },
   qutoe: {
     fontSize: 15,
@@ -227,6 +226,11 @@ const styles = StyleSheet.create({
     color: 'white',
     // fontWeight: 'bold',
     
+  },
+  saw: {
+    fontSize: 13,
+    paddingTop: 3,
+    color: 'white',
   },
   input: {
     fontSize: 15,
