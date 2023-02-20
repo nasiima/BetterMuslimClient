@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef , } from 'react';
 
 import { StyleSheet, Text, View,  Button } from 'react-native';
-import mp from '/Users/nasiima/Desktop/BetterMuslimClient/assets/video.mp4';
+// import mp from '/Users/nasiima/Desktop/BetterMuslimClient/assets/video.mp4';
 // import Video from "react-native-video";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Video, AVPlaybackStatus } from 'expo-av';

@@ -20,8 +20,8 @@ export default function Register({ navigation }) {
 
 
 
-const register = () => {
- 
+  const register = () => {
+
     setError("")
 
     let body = JSON.stringify({
@@ -37,144 +37,159 @@ const register = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body:body
-      })
-      .then( res => res.json())
-      .then( res => {
+      body: body
+    })
+      .then(res => res.json())
+      .then(res => {
         navigation.navigate('Login');
       })
-      .catch( error => console.log(error));
+      .catch(error => console.log(error));
 
   }
 
-    // GOOGLE AUTH
+  // GOOGLE AUTH
 
-    const [accessToken, setAccessToken] = React.useState(null);
-    const [user, setUser] = React.useState(null);
-    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-      clientId: "614056587655-5uc97sg5l7f8qlsq3o6ubufr5b0vrn11.apps.googleusercontent.com",
-      iosclientId: "614056587655-22isstt848ak449l64l4e8nnokrr2e3j.apps.googleusercontent.com"
-      // androidClientId: ""
-    });
-    React.useEffect(() => {
-      if (response?.type === "success") {
-        setAccessToken(response.authentication.accessToken);
-        accessToken && fetchUserInfo();
-  
-      }
-    }, [response, accessToken])
-  
-  
-  
-    async function fetchUserInfo() {
-      let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-      const useInfo = await response.json();
-      setUser(useInfo);
+  const [accessToken, setAccessToken] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: "614056587655-5uc97sg5l7f8qlsq3o6ubufr5b0vrn11.apps.googleusercontent.com",
+    iosclientId: "614056587655-22isstt848ak449l64l4e8nnokrr2e3j.apps.googleusercontent.com"
+    // androidClientId: ""
+  });
+  React.useEffect(() => {
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      accessToken && fetchUserInfo();
+
     }
+  }, [response, accessToken])
+
+
+
+  async function fetchUserInfo() {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    const useInfo = await response.json();
+    setUser(useInfo);
+  }
 
   return (
 
-<ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/pexels-tima-miroshnichenko-6010467.jpg')} >
-    <View style={styles.container} >
-       {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
-      <Text style={styles.label} >BetterMuslim</Text>
+    <ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/medina.jpeg')} >
+      <View style={styles.container} >
+        <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
-      <Text style={styles.qutoes}>Smile because it's sunnah muslim :)</Text>
-      <TouchableOpacity disabled={!request}
-        onPress={() => {
-          promptAsync();
-        }} style={styles.google}>
-           <View style={styles.googleContent}>
-        <View style={styles.googleIcon}>
-          <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
-        </View>
-        <Text style={styles.googletxt}>Continue with Google</Text>
-      </View>
-    </TouchableOpacity>
-          <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>─────────  or  ───────── </Text>
-       
+        <Text style={styles.qutoe}>I have been sent to perfect good character</Text>
+        <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        onChangeText={text => setFirstName(text)}
-        value={firstName}
-        autoCapitalize={'none'}
-        justifyContent={'flex-end'}
-        padding={10}
-      />
+        <TouchableOpacity
 
-<TextInput
-        style={styles.input}
-        placeholder="Last Name"
-        onChangeText={text => setLastName(text)}
-        value={lastName}
-        autoCapitalize={'none'}
-        justifyContent={'flex-end'}
-        padding={10}
-      />
+          disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }} style={styles.google}>
+          <View style={styles.googleContent}>
+            <View style={styles.googleIcon}>
+              <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
+            </View>
+            <Text style={styles.googletxt}>Continue with Google</Text>
+          </View>
+        </TouchableOpacity>
+        <Text style={styles.or}>──────────  or  ────────── </Text>
 
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={text => setEmail(text)}
-        value={email}
-        autoCapitalize={'none'}
-        justifyContent={'flex-end'}
-        padding={10}
-      />
-    
+        <TextInput
+          style={styles.input}
+          placeholder="First Name"
+          onChangeText={text => setFirstName(text)}
+          value={firstName}
+          autoCapitalize={'none'}
+          justifyContent={'flex-end'}
+          padding={10}
+          backgroundColor='rgba(255,255,255,0.6)'
+          borderColor='rgba(158, 150, 150, .5)'
+          placeholderTextColor="#2f4f4f"
+        />
 
-  
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name"
+          onChangeText={text => setLastName(text)}
+          value={lastName}
+          autoCapitalize={'none'}
+          justifyContent={'flex-end'}
+          padding={10}
+          backgroundColor='rgba(255,255,255,0.6)'
+          borderColor='rgba(158, 150, 150, .5)'
+          placeholderTextColor="#2f4f4f"
+        />
 
-  
-      {/* <Text style={styles.label}>Password</Text> */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry={securePassword}
-        autoCapitalize={'none'}
-        padding={10}
-        marginBottom={10}
-        textContentType="password"
-        autoCompleteType="password"
 
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={text => setEmail(text)}
+          value={email}
+          autoCapitalize={'none'}
+          justifyContent={'flex-end'}
+          padding={10}
+          backgroundColor='rgba(255,255,255,0.6)'
+          placeholderTextColor="#2f4f4f"
+          borderColor='rgba(158, 150, 150, .5)'
+        />
 
-      {/* <Button
+
+
+
+
+        {/* <Text style={styles.label}>Password</Text> */}
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          secureTextEntry={securePassword}
+          autoCapitalize={'none'}
+          padding={10}
+          marginBottom={10}
+          textContentType="password"
+          autoCompleteType="password"
+          backgroundColor='rgba(255,255,255,0.6)'
+          placeholderTextColor="#2f4f4f"
+          borderColor='rgba(158, 150, 150, .5)'
+
+        />
+
+        {/* <Button
         onPress={() => register()}
         title="Register"
       >
         Register
       </Button> */}
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => register()}
-      >
-        <Text style={styles.registertxt}>Register</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => register()}
+        >
+          <Text style={styles.registertxt}>Register</Text>
+        </TouchableOpacity>
 
 
-      <TouchableOpacity >
-        <Text style={styles.alract}>Already have an account?</Text>
-        <Button
-       onPress={() => navigation.navigate('Login')}
-        title="Go to Login"
-        color='green'
-      >
-      </Button>
-      </TouchableOpacity>
+        <TouchableOpacity >
+          <Text style={styles.alract}>Already have an account?</Text>
+          <Button
+            onPress={() => navigation.navigate('Login')}
+            title="Go to Login"
+            color='#32cd32'
+          >
+          </Button>
+        </TouchableOpacity>
 
-    </View>
-       </ImageBackground>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -186,7 +201,7 @@ Register.navigationOptions = screenProps => ({
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
-    fontSize:24
+    fontSize: 24
   }
 })
 
@@ -196,7 +211,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0, 0.50)',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -205,28 +220,39 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     marginBottom: 50,
-
     resizeMode: 'contain',
   },
-  label: {
+  BetterMuslim: {
     fontSize: 30,
-    color: 'black',
-    // padding: 10,
+    color: 'white',
     fontWeight: 'bold',
-    // fontFamily: 'Merriweather-Bold'
+    // fontFamily: 'Montserrat-Bold',
+  },
+  qutoe: {
+    fontSize: 15,
+    paddingTop: 15,
+    color: 'white',
+    // fontWeight: 'bold',
+
+  },
+  saw: {
+    fontSize: 13,
+    paddingTop: 3,
+    color: 'white',
   },
   alract: {
-    color: 'grey',
+    color: 'white',
     fontSize: 17,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 30,
     textAlign: 'center',
+    fontWeight: 'bold',
 
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'green',
+    backgroundColor: '#32cd32',
     padding: 10,
     height: 50,
     margin: 5,
@@ -245,18 +271,22 @@ const styles = StyleSheet.create({
   qutoes: {
     fontSize: 15,
     // color: 'grey',
-     paddingTop: 15
+    paddingTop: 15
   },
   input: {
-    fontSize: 18,
+    fontSize: 15,
     backgroundColor: 'white',
     padding: 5,
-    borderColor: 'gray',
+    // borderColor: 'black',
+    borderColor: 'rgba(158, 150, 150, .5)',
     borderWidth: 1,
+    
     margin: 5,
     width: "80%",
     borderRadius: 10,
-    
+    color: `#2f4f4f`,
+
+
   },
 
   google: {
@@ -265,14 +295,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderColor: 'gray',
-     borderWidth: 1,
+    borderWidth: 1,
     margin: 5,
     width: "80%",
     borderRadius: 10,
     textAlign: 'center',
     color: 'grey',
     alignItems: 'center',
-   
+    backgroundColor: 'rgba(255,255,255,0.6)',
+    borderColor: 'rgba(158, 150, 150, .5)'
+
   },
   googleContent: {
     flexDirection: 'row',
@@ -289,18 +321,21 @@ const styles = StyleSheet.create({
   googletxt: {
     fontSize: 14,
     textAlign: 'center',
-    color: 'grey',
+    color: "#2f4f4f"
   },
   or: {
     padding: 22,
-    color: 'grey'
+    color: 'white',
+    textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 20
   }
-//   appButtonContainer: {
-//     borderColor: 'gray',
-//     borderWidth: 1,
-//    margin: 5,
-//    width: "80%",
-//    borderRadius: 10,
-//   }
+  //   appButtonContainer: {
+  //     borderColor: 'gray',
+  //     borderWidth: 1,
+  //    margin: 5,
+  //    width: "80%",
+  //    borderRadius: 10,
+  //   }
 
 });
