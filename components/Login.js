@@ -58,16 +58,16 @@ export default function Login({ navigation, props }) {
   // }
 
   const login = () => {
-    let body = JSON.stringify({
-          'username': email.toLowerCase(),
-          'password': password
-        })
     if (!email || !password) {
-      // Show error message for empty fields
       console.log("Please enter a username and password");
       return;
     }
     
+    let body = JSON.stringify({
+      'username': email.toLowerCase(),
+      'password': password
+    })
+  
     fetch(`http://127.0.0.1:8000/api/loginuser/`, {
       method: 'POST',
       headers: {
@@ -75,12 +75,21 @@ export default function Login({ navigation, props }) {
       },
       body: body
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
       .then(res => {
         saveData(res.token);
         navigation.navigate('Reminders');
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        console.log("Invalid email or password");
+      });
   };
   
 
