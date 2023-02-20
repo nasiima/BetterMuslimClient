@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Button } from 'react-native';
-import axios from 'axios';
+import React, { useState, useEffect, useRef , } from 'react';
+
+import { StyleSheet, Text, View,  Button } from 'react-native';
+import mp from '/Users/nasiima/Desktop/BetterMuslimClient/assets/video.mp4';
+// import Video from "react-native-video";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Video, AVPlaybackStatus } from 'expo-av';
+
+
 
 export default function Reminders(props) {
 
   const [ reminders, setReminders] = useState([]);
+
   let token = null;
+
+
+
+
 
   const getData = async () => {
     token = await AsyncStorage.getItem('MR_Token');
@@ -50,14 +60,12 @@ export default function Reminders(props) {
 
   return (
     <View style={styles.container}>
-      <Text>Hello User this is the reminders page!</Text>
-    
-      <Button onPress={() => handleLogout()}
-        title="Logout"
-      >
-        Logout
-      </Button>
-    </View>
+  
+
+      <Text style={styles.text}>Hello User this is the reminders page!</Text>
+
+    <Button onPress={handleLogout} title="Logout" />
+  </View>
   );
 }
 
@@ -84,4 +92,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  video: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+   
 });

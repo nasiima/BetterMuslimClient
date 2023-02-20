@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image, ImageBackground } from 'react-native';
 
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -78,9 +78,9 @@ const register = () => {
 
   return (
 
-
+<ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/pexels-tima-miroshnichenko-6010467.jpg')} >
     <View style={styles.container} >
-       <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} />
+       {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
       <Text style={styles.label} >BetterMuslim</Text>
 
       <Text style={styles.qutoes}>Smile because it's sunnah muslim :)</Text>
@@ -174,6 +174,7 @@ const register = () => {
       </TouchableOpacity>
 
     </View>
+       </ImageBackground>
   );
 }
 
@@ -190,9 +191,12 @@ Register.navigationOptions = screenProps => ({
 })
 
 const styles = StyleSheet.create({
+  imgbcg: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
