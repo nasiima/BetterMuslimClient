@@ -32,15 +32,42 @@ export default function Login({ navigation, props }) {
     if (token) navigation.navigate("Reminders");
   }
 
+  // const login = () => {
+
+  //   setError("")
+
+  //   let body = JSON.stringify({
+  //     'username': email.toLowerCase(),
+  //     'password': password
+  //   })
+
+  //   fetch(`http://127.0.0.1:8000/api/loginuser/`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: body
+  //   })
+
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       saveData(res.token);
+  //       navigation.navigate('Reminders');
+  //     })
+  //     .catch(error => console.log(error));
+  // }
+
   const login = () => {
-
-    setError("")
-
     let body = JSON.stringify({
-      'username': email.toLowerCase(),
-      'password': password
-    })
-
+          'username': email.toLowerCase(),
+          'password': password
+        })
+    if (!email || !password) {
+      // Show error message for empty fields
+      console.log("Please enter a username and password");
+      return;
+    }
+    
     fetch(`http://127.0.0.1:8000/api/loginuser/`, {
       method: 'POST',
       headers: {
@@ -48,15 +75,14 @@ export default function Login({ navigation, props }) {
       },
       body: body
     })
-
       .then(res => res.json())
       .then(res => {
         saveData(res.token);
         navigation.navigate('Reminders');
       })
       .catch(error => console.log(error));
-  }
-
+  };
+  
 
   // GOOGLE AUTH
 
