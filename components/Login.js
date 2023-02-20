@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import '/Users/nasiima/Desktop/BetterMuslimClient/assets/login.jpg'
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -10,6 +11,8 @@ import * as WebBrowser from 'expo-web-browser';
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login({ navigation, props }) {
+
+
   // const navigation = useNavigation(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -95,18 +98,26 @@ export default function Login({ navigation, props }) {
   //   }
   // }
 
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
 
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // const { onPress, title = 'Create Account' } = props;
   return (
 
+<ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/pexels-esra-afşar-15018493.jpg')} >
+    <View  style={styles.container1}  >
+      {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
+      <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
-    <View style={styles.container} >
-      <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} />
-      <Text style={styles.label} >BetterMuslim</Text>
-
-      <Text style={styles.qutoes}>For surely, the reminding benefits the believers</Text>
-      <TouchableOpacity disabled={!request}
+      <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
+      <TouchableOpacity  
+ 
+      disabled={!request}
         onPress={() => {
           promptAsync();
         }} style={styles.google}>
@@ -120,16 +131,18 @@ export default function Login({ navigation, props }) {
 
  
       <View>
-        <Text style={{ color: 'grey', textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}>──────────  or  ────────── </Text>
+        <Text style={styles.or}>──────────  or  ────────── </Text>
       </View>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Email Address"
         onChangeText={text => setEmail(text)}
         value={email}
         autoCapitalize={'none'}
         justifyContent={'flex-end'}
         padding={10}
+        placeholderTextColor="#2f4f4f"
+        backgroundColor='rgba(255,255,255,0.6)'
       />
       {/* <Text style={styles.label}>Password</Text> */}
       <TextInput
@@ -141,6 +154,8 @@ export default function Login({ navigation, props }) {
         autoCapitalize={'none'}
         padding={10}
         marginBottom={10}
+        placeholderTextColor="#2f4f4f"
+        backgroundColor='rgba(255,255,255,0.6)'
       />
 
       <TouchableOpacity
@@ -155,35 +170,42 @@ export default function Login({ navigation, props }) {
         <Text style={styles.dntact}>Don't have an account?</Text>
 
         <Button
-          color='green'
+          color='#32cd32'
           title="Create Account"
+          fontWeight="bold"
           onPress={() => navigation.navigate('Register')} />
       </TouchableOpacity>
 
     </View>
+    </ImageBackground>
   );
 }
 
-Login.navigationOptions = screenProps => ({
-  title: "Login",
-  headerStyle: {
-    backgroundColor: 'white'
-  },
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontWeight: 'bold',
-    fontSize: 24
-  }
-})
+// Login.navigationOptions = screenProps => ({
+//   title: "Login",
+//   headerStyle: {
+//     backgroundColor: 'black'
+//   },
+//   headerTintColor: '#fff',
+//   headerTitleStyle: {
+//     fontWeight: 'bold',
+//     fontSize: 24
+//   }
+// })
 
 const styles = StyleSheet.create({
-  container: {
+  imgbcg: {
     flex: 1,
-    backgroundColor: 'white',
+    
+  },
+  container1: {
+    flex: 1,
+    // backgroundColor: 'white',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15
+    marginBottom: 15,
+    backgroundColor: 'rgba(0,0,0, 0.50)'
   },
   islamImage: {
     width: 70,
@@ -193,38 +215,46 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
-  label: {
+  BetterMuslim: {
     fontSize: 30,
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat-Bold',
   },
-  qutoes: {
+  qutoe: {
     fontSize: 15,
-    paddingTop: 15
+    paddingTop: 15,
+    color: 'white',
+    // fontWeight: 'bold',
+    
   },
   input: {
-    fontSize: 18,
+    fontSize: 15,
     backgroundColor: 'white',
     padding: 5,
-    borderColor: 'gray',
+    // borderColor: 'black',
+    borderColor: 'rgba(158, 150, 150, .5)',
     borderWidth: 1,
+    
     margin: 5,
     width: "80%",
     borderRadius: 10,
+    color: `#2f4f4f`,
 
   },
   dntact: {
-    color: 'grey',
+    color: 'white',
     fontSize: 17,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 90,
     textAlign: 'center',
+    fontWeight: 'bold',
 
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'green',
+    backgroundColor: '#32cd32',
     padding: 10,
     height: 50,
     margin: 5,
@@ -232,6 +262,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    borderColor: 'rgba(158, 150, 150, .5)',
+    color: '#7cfc00'
   },
   logintxt: {
     color: 'white',
@@ -245,7 +277,8 @@ const styles = StyleSheet.create({
     marginTop: 45,
     backgroundColor: 'white',
     padding: 10,
-    borderColor: 'gray',
+    // borderColor: 'black',
+    borderColor: 'rgba(158, 150, 150, .5)',
     borderWidth: 1,
     margin: 5,
     width: "80%",
@@ -253,6 +286,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'grey',
     alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.7)'
   },
   googleContent: {
     flexDirection: 'row',
@@ -269,11 +303,15 @@ const styles = StyleSheet.create({
   googletxt: {
     fontSize: 14,
     textAlign: 'center',
-    color: 'grey',
+    // color: 'grey',
+    color: "#2f4f4f"
   },
   or: {
     padding: 22,
-    color: 'grey'
+    color: 'white',
+    textAlign: 'center', 
+    paddingTop: 20, 
+    paddingBottom: 20 
   }
 
 });
