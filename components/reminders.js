@@ -1,16 +1,11 @@
-import React, { useState, useEffect, useRef , } from 'react';
-
-import { StyleSheet, Text, View,  Button } from 'react-native';
-// import mp from '/Users/nasiima/Desktop/BetterMuslimClient/assets/video.mp4';
-// import Video from "react-native-video";
+import React, { useState, useEffect, TouchableOpacity, } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Video, AVPlaybackStatus } from 'expo-av';
 
 
+export default function Reminders({ navigation, props }) {
 
-export default function Reminders({navigation, props}) {
-
-  const [ reminders, setReminders] = useState([]);
+  const [reminders, setReminders] = useState([]);
 
   const handleProfile = () => {
     navigation.navigate('Profile');
@@ -18,10 +13,6 @@ export default function Reminders({navigation, props}) {
 
 
   let token = null;
-
-
-
-
 
   const getData = async () => {
     token = await AsyncStorage.getItem('MR_Token');
@@ -31,7 +22,7 @@ export default function Reminders({navigation, props}) {
       props.navigation.navigate("Login")
     }
   };
-  
+
   useEffect(() => {
     getData();
   }, []);
@@ -44,25 +35,24 @@ export default function Reminders({navigation, props}) {
         'Authorization': `Token ${token}`
       }
     })
-    .then( res => res.json())
-    .then( jsonRes => setReminders(jsonRes))
-    .catch( error => console.log(error));
+      .then(res => res.json())
+      .then(jsonRes => setReminders(jsonRes))
+      .catch(error => console.log(error));
   }
-
 
 
 
   return (
     <View style={styles.container}>
-  
+      <View style={styles.profileButtonContainer}>
+        <Button title="Profile" onPress={handleProfile} />
+      </View>
 
       <Text style={styles.text}>Hello User this is the reminders page!</Text>
-     <Button title="Profile" onPress={handleProfile} />
-    {/* <Button onPress={handleLogout} title="Logout" /> */}
-  </View>
+    </View>
+
   );
 }
-
 
 
 
@@ -74,24 +64,25 @@ Reminders.navigationOptions = screenProps => ({
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
-    fontSize:24
+    fontSize: 24
   }
 })
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  video: {
+  profileButtonContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
-    right: 0,
   },
-   
+  text: {
+    fontSize: 20,
+    margin: 20,
+  },
 });
+
+
