@@ -8,9 +8,14 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 
 
 
-export default function Reminders(props) {
+export default function Reminders({navigation, props}) {
 
   const [ reminders, setReminders] = useState([]);
+
+  const handleProfile = () => {
+    navigation.navigate('Profile');
+  }
+
 
   let token = null;
 
@@ -45,28 +50,15 @@ export default function Reminders(props) {
   }
 
 
-  const handleLogout = async () => {
-    token = await AsyncStorage.getItem('MR_Token');
-    console.log("Current token before removing: ", token);
-    try {
-      await AsyncStorage.removeItem('MR_Token');
-      const newToken = await AsyncStorage.getItem('MR_Token');
-      console.log("New token after removing: ", newToken);
-      props.navigation.navigate("Login");
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  
-      
+
 
   return (
     <View style={styles.container}>
   
 
       <Text style={styles.text}>Hello User this is the reminders page!</Text>
-
-    <Button onPress={handleLogout} title="Logout" />
+     <Button title="Profile" onPress={handleProfile} />
+    {/* <Button onPress={handleLogout} title="Logout" /> */}
   </View>
   );
 }
