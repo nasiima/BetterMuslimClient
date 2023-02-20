@@ -33,7 +33,7 @@ export default function Login({ navigation, props }) {
   }
 
 
-  const login = () => {
+  const login = (clearFields) => {
     if (!email || !password) {
       console.log("Please enter a username and password");
       return;
@@ -60,6 +60,7 @@ export default function Login({ navigation, props }) {
       })
       .then(res => {
         saveData(res.token);
+        clearFields(); //
         navigation.navigate('Reminders');
       })
       .catch(error => {
@@ -68,7 +69,12 @@ export default function Login({ navigation, props }) {
       });
   };
 
-
+  const handleLogin = () => {
+    login(() => { // Pass a callback function to `login`
+      setEmail('');
+      setPassword('');
+    });
+  };
   // GOOGLE AUTH
 
   const [accessToken, setAccessToken] = React.useState(null);
@@ -163,7 +169,7 @@ export default function Login({ navigation, props }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => login()}
+          onPress={handleLogin}
         >
           <Text style={styles.logintxt}>Login</Text>
         </TouchableOpacity>
