@@ -47,15 +47,17 @@ export default function Reminders(props) {
 
   const handleLogout = async () => {
     token = await AsyncStorage.getItem('MR_Token');
+    console.log("Current token before removing: ", token);
     try {
-      await AsyncStorage.removeItem(token);
-      props.navigation.navigate("Login")
+      await AsyncStorage.removeItem('MR_Token');
+      const newToken = await AsyncStorage.getItem('MR_Token');
+      console.log("New token after removing: ", newToken);
+      props.navigation.navigate("Login");
     } catch (e) {
       console.log(e);
     }
   }
-
-
+  
       
 
   return (
