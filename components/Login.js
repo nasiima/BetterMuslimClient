@@ -32,9 +32,12 @@ export default function Login({ navigation, props }) {
     if (token) navigation.navigate("Reminders");
   }
 
-  const login = () => {
 
-    setError("")
+  const login = () => {
+    if (!email || !password) {
+      console.log("Please enter a username and password");
+      return;
+    }
 
     let body = JSON.stringify({
       'username': email.toLowerCase(),
@@ -48,14 +51,22 @@ export default function Login({ navigation, props }) {
       },
       body: body
     })
-
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
       .then(res => {
         saveData(res.token);
         navigation.navigate('Reminders');
       })
-      .catch(error => console.log(error));
-  }
+      .catch(error => {
+        console.log(error);
+        console.log("Invalid email or password");
+      });
+  };
 
 
   // GOOGLE AUTH
@@ -86,17 +97,7 @@ export default function Login({ navigation, props }) {
     const useInfo = await response.json();
     setUser(useInfo);
   }
-  // const ShowUserInfo = () => {
-  //   if (user) {
-  //     return (
-  //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  //         <Text style={{ fontSize: 35, fontWeight: 'bold', marginBottom: 20 }}>Welcome</Text>
-  //         <Image source={{ uri: user.picture }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-  //         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.name}</Text>
-  //       </View>
-  //     )
-  //   }
-  // }
+
 
   let [fontsLoaded] = useFonts({
     Inter_900Black,
@@ -109,76 +110,76 @@ export default function Login({ navigation, props }) {
   // const { onPress, title = 'Create Account' } = props;
   return (
 
-<ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/pexels-esra-afşar-15018493.jpg')} >
-    <View  style={styles.container1}  >
-      {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
-      <Text style={styles.BetterMuslim} >BetterMuslim</Text>
+    <ImageBackground style={styles.imgbcg} source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/pexels-esra-afşar-15018493.jpg')} >
+      <View style={styles.container1}  >
+        {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
+        <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
-      <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
-      <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
-  
-      <TouchableOpacity  
- 
-      disabled={!request}
-        onPress={() => {
-          promptAsync();
-        }} style={styles.google}>
-        <View style={styles.googleContent}>
-          <View style={styles.googleIcon}>
-            <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
+        <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
+        <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
+
+        <TouchableOpacity
+
+          disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }} style={styles.google}>
+          <View style={styles.googleContent}>
+            <View style={styles.googleIcon}>
+              <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/gmailIcon.png')} style={styles.googleImage} />
+            </View>
+            <Text style={styles.googletxt}>Continue with Google</Text>
           </View>
-          <Text style={styles.googletxt}>Continue with Google</Text>
+        </TouchableOpacity>
+
+
+        <View>
+          <Text style={styles.or}>──────────  or  ────────── </Text>
         </View>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Email Address"
+          onChangeText={text => setEmail(text)}
+          value={email}
+          autoCapitalize={'none'}
+          justifyContent={'flex-end'}
+          padding={10}
+          placeholderTextColor="#2f4f4f"
+          backgroundColor='rgba(255,255,255,0.6)'
+        />
+        {/* <Text style={styles.label}>Password</Text> */}
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          secureTextEntry={true}
+          autoCapitalize={'none'}
+          padding={10}
+          marginBottom={10}
+          placeholderTextColor="#2f4f4f"
+          backgroundColor='rgba(255,255,255,0.6)'
+        />
 
- 
-      <View>
-        <Text style={styles.or}>──────────  or  ────────── </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => login()}
+        >
+          <Text style={styles.logintxt}>Login</Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity >
+          <Text style={styles.dntact}>Don't have an account?</Text>
+
+          <Button
+            color='#32cd32'
+            title="Create Account"
+            fontWeight="bold"
+            onPress={() => navigation.navigate('Register')} />
+        </TouchableOpacity>
+
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Email Address"
-        onChangeText={text => setEmail(text)}
-        value={email}
-        autoCapitalize={'none'}
-        justifyContent={'flex-end'}
-        padding={10}
-        placeholderTextColor="#2f4f4f"
-        backgroundColor='rgba(255,255,255,0.6)'
-      />
-      {/* <Text style={styles.label}>Password</Text> */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry={true}
-        autoCapitalize={'none'}
-        padding={10}
-        marginBottom={10}
-        placeholderTextColor="#2f4f4f"
-        backgroundColor='rgba(255,255,255,0.6)'
-      />
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => login()}
-      >
-        <Text style={styles.logintxt}>Login</Text>
-      </TouchableOpacity>
-
-
-      <TouchableOpacity >
-        <Text style={styles.dntact}>Don't have an account?</Text>
-
-        <Button
-          color='#32cd32'
-          title="Create Account"
-          fontWeight="bold"
-          onPress={() => navigation.navigate('Register')} />
-      </TouchableOpacity>
-
-    </View>
     </ImageBackground>
   );
 }
@@ -198,7 +199,7 @@ export default function Login({ navigation, props }) {
 const styles = StyleSheet.create({
   imgbcg: {
     flex: 1,
-    
+
   },
   container1: {
     flex: 1,
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     color: 'white',
     // fontWeight: 'bold',
-    
+
   },
   saw: {
     fontSize: 13,
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     // borderColor: 'black',
     borderColor: 'rgba(158, 150, 150, .5)',
     borderWidth: 1,
-    
+
     margin: 5,
     width: "80%",
     borderRadius: 10,
@@ -313,9 +314,9 @@ const styles = StyleSheet.create({
   or: {
     padding: 22,
     color: 'white',
-    textAlign: 'center', 
-    paddingTop: 20, 
-    paddingBottom: 20 
+    textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 20
   }
 
 });
