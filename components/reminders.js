@@ -7,11 +7,6 @@ export default function Reminders({ navigation, props }) {
 
   const [reminders, setReminders] = useState([]);
 
-  const handleProfile = () => {
-    navigation.navigate('Profile');
-  }
-
-
   let token = null;
 
   const getData = async () => {
@@ -29,7 +24,7 @@ export default function Reminders({ navigation, props }) {
 
   const getReminders = () => {
     console.log(token);
-    fetch(`http://192.168.1.5:8000/api/reminders`, {
+    fetch(`http://127.0.0.1:8000/api/reminder-of-the-day/`, {
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`
@@ -39,8 +34,12 @@ export default function Reminders({ navigation, props }) {
       .then(jsonRes => setReminders(jsonRes))
       .catch(error => console.log(error));
   }
+  const handleProfile = () => {
+    navigation.navigate('Profile');
+  }
 
 
+ 
 
   return (
     <View style={styles.container}>
@@ -49,6 +48,8 @@ export default function Reminders({ navigation, props }) {
       </View>
 
       <Text style={styles.text}>Hello User this is the reminders page!</Text>
+       <Text>{reminders.title}</Text>
+          <Text>{reminders.reminder_text}</Text>
     </View>
 
   );
