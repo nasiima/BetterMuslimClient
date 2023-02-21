@@ -122,7 +122,7 @@ export default function Login({ navigation, props }) {
         <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
         <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
-        <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
+        <Text style={styles.saw}> - Prophet muhammad ﷺ</Text>
 
         <TouchableOpacity
 

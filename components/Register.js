@@ -83,7 +83,7 @@ export default function Register({ navigation }) {
         <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
         <Text style={styles.qutoe}>I have been sent to perfect good character</Text>
-        <Text style={styles.saw}> Prophet muhammad ﷺ</Text>
+        <Text style={styles.saw}> - Prophet muhammad ﷺ</Text>
 
         <TouchableOpacity
 
