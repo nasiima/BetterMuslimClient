@@ -4,11 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Reminders({ navigation, props }) {
-
-  const [reminders, setReminders] = useState([]);
+  const [reminder, setReminder] = useState(null);
 
   let token = null;
-
+  
   const getData = async () => {
     token = await AsyncStorage.getItem('MR_Token');
     if (token) {
@@ -17,13 +16,12 @@ export default function Reminders({ navigation, props }) {
       props.navigation.navigate("Login")
     }
   };
-
+  
   useEffect(() => {
     getData();
   }, []);
-
+  
   const getReminders = () => {
-    console.log(token);
     fetch(`http://127.0.0.1:8000/api/reminder-of-the-day/`, {
       method: 'GET',
       headers: {
@@ -31,30 +29,48 @@ export default function Reminders({ navigation, props }) {
       }
     })
       .then(res => res.json())
-      .then(jsonRes => setReminders(jsonRes))
+      .then(jsonRes => {
+        if (jsonRes.length > 0) {
+          const currentDateTime = new Date().toJSON();
+          // console.log('jsonRes:', jsonRes);
+          const reminder = jsonRes.find(
+            reminder =>
+            new Date(reminder.reminder_date).getTime() === currentDateTime.getTime() &&
+            new Date(`01/01/1970 ${reminder.reminder_time}`).getTime() === currentDateTime.getTime()
+            );
+          setReminder(reminder);
+        } else {
+          console.log('No reminders due');
+        }
+      })
       .catch(error => console.log(error));
   }
-  const handleProfile = () => {
+  
+
+ const handleProfile = () => {
     navigation.navigate('Profile');
   }
-
-
- 
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.profileButtonContainer}>
         <Button title="Profile" onPress={handleProfile} />
       </View>
-
+  
       <Text style={styles.text}>Hello User this is the reminders page!</Text>
-       <Text>{reminders.title}</Text>
-          <Text>{reminders.reminder_text}</Text>
+      {reminder ? (
+        <>
+          <Text>{reminder.title}</Text>
+          <Text>{reminder.reminder_text}</Text>
+        </>
+      ) : (
+        <Text>No reminders due.</Text>
+      )}
     </View>
-
   );
+  
 }
-
+  
 
 
 Reminders.navigationOptions = screenProps => ({
