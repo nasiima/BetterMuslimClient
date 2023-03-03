@@ -29,7 +29,7 @@ export default function Login({ navigation, props }) {
   }
   const getData = async () => {
     const token = await AsyncStorage.getItem('MR_Token');
-    if (token) navigation.navigate("Reminders");
+    if (token) navigation.navigate("CardForm");
   }
 
 
@@ -61,7 +61,7 @@ export default function Login({ navigation, props }) {
       .then(res => {
         saveData(res.token);
         clearFields(); //
-        navigation.navigate('Reminders');
+        navigation.navigate('CardForm');
       })
       .catch(error => {
         console.log(error);
