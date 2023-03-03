@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
-import Reminders from './components/Reminders';
+import CardForm from './components/CardForm';
 import Profile from './components/Profile';
 
 
@@ -13,7 +13,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 const AppNavigator = createStackNavigator({
   Login: {screen: Login},
   Register: {screen: Register},
-  Reminders: {screen: Reminders},
+  CardForm: {screen: CardForm},
   Profile: {screen: Profile},
 })
 
