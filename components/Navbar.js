@@ -11,7 +11,7 @@ export default function Navbar ({navigation})  {
         
         
         <Button title="Profile" onPress={() => navigation.navigate('Profile')} />
-         <Button title="CardForm" onPress={() => navigation.navigate('CardForm')} />
+         <Button title="CardForm"  onPress={() => navigation.navigate('CardForm')} />
          <Button title="TheSlider" onPress={() => navigation.navigate('TheSlider')} />
          <Button  title="Charities" onPress={() => navigation.navigate('Charities')} />
 
