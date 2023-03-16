@@ -1,6 +1,7 @@
 
 import { View, Text, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Navbar from './Navbar';
 
 
 function Profile({ navigation }) {
@@ -22,11 +23,14 @@ function Profile({ navigation }) {
     }
 
     return (
+        <>
+        <Navbar navigation={navigation} />
         <View style={styles.container}>
             <Text style={styles.text}>Hello User, this is your profile!</Text>
             <Button title="Logout" onPress={handleLogout} />
 
         </View>
+        </>
     );
 }
 
