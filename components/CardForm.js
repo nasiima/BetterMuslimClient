@@ -5,56 +5,99 @@ import Navbar from './Navbar';
 
 
 export default function CardForm({navigation}){
+  const [planId, setPlanId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expMonth, setExpMonth] = useState('');
+  const [expYear, setExpYear] = useState('');
+  const [cvc, setCvc] = useState('');
+  const [amount, setAmount] = useState('');
 
+  // const handleSlider = () => {
+  //   navigation.navigate('TheSlider');
+  // }
+  // useEffect(() => {
+  //   getData();
+  // }, [])
 
-  const handleSlider = () => {
-    navigation.navigate('TheSlider');
-  }
+  // const saveData = async (token) => {
+  //   await AsyncStorage.setItem('MR_Token', token)
+  // }
+  // const getData = async () => {
+  //   const token = await AsyncStorage.getItem('MR_Token');
+  //   if (token) navigation.navigate("CardForm");
+  // }
+
+  const handlePress = async () => {
+    const token = await AsyncStorage.getItem('MR_Token');
+    fetch('http://localhost:8000/api/checkout/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({
+        plan_id: planId,
+        payment_method: 'card',
+        card_number: cardNumber,
+        exp_month: expMonth,
+        exp_year: expYear,
+        cvc: cvc,
+        amount: amount,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  };
   
 
-  
 
   return (
     <>
     <Navbar navigation={navigation} />
-
-    
-
-    <View style={styles.container}>
+   <View>
+    <TextInput
+        placeholder="Plan ID"
+        value={planId}
+        onChangeText={setPlanId}
+      />
+      <TextInput
+        placeholder="Payment Method"
+        value={paymentMethod}
+        onChangeText={setPaymentMethod}
+      />
+      <TextInput
+        placeholder="Card Number"
+        value={cardNumber}
+        onChangeText={setCardNumber}
+      />
        <TextInput
-        placeholder="Card number"
-        // value={cardNumber}
-        // onChangeText={setCardNumber}
-        style={styles.input}
+        placeholder="Expiration Month"
+        value={expMonth}
+        onChangeText={setExpMonth}
       />
       <TextInput
-        placeholder="Cardholder name"
-        // value={cardholderName}
-        // onChangeText={setCardholderName}
-        style={styles.input}
+        placeholder="Expiration Year"
+        value={expYear}
+        onChangeText={setExpYear}
       />
       <TextInput
-        placeholder="Expiration date"
-        // value={expirationDate}
-        // onChangeText={setExpirationDate}
-        style={styles.input}
+        placeholder="CVC"
+        value={cvc}
+        onChangeText={setCvc}
       />
       <TextInput
-        placeholder="CVV"
-        // value={cvv}
-        // onChangeText={setCvv}
-        style={styles.input}
+        placeholder="Amount"
+        value={amount}
+        onChangeText={setAmount}
       />
-      <Button
-        title="Save card"
-        onPress={handleSlider}
-        style={styles.button}
-        textStyle={styles.buttonText}
-      />
+      <Button title="Submit" onPress={handlePress} />
     </View>
     </>
   );
 };
+
 
 
 // CardForm.navigationOptions = screenProps => ({

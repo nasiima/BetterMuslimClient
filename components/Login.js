@@ -32,7 +32,25 @@ export default function Login({ navigation, props }) {
     if (token) navigation.navigate("CardForm");
   }
 
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('MR_Token');
+      return token;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+  
+  const logToken = async () => {
+    const token = await getToken();
+    console.log(token);
+  }
+  
+  // Call this function wherever you want to log the token
+  logToken();
 
+  
   const login = (clearFields) => {
     if (!email || !password) {
       console.log("Please enter a username and password");
@@ -61,7 +79,7 @@ export default function Login({ navigation, props }) {
       .then(res => {
         saveData(res.token);
         clearFields(); //
-        navigation.navigate('CardForm');
+        navigation.navigate('TheSlider');
       })
       .catch(error => {
         console.log(error);
@@ -121,8 +139,8 @@ export default function Login({ navigation, props }) {
         {/* <Image source={require('/Users/nasiima/Desktop/BetterMuslimClient/assets/islamlogo.png')} style={styles.islamImage} /> */}
         <Text style={styles.BetterMuslim} >BetterMuslim</Text>
 
-        <Text style={styles.qutoe}>For surely, the reminding benefits the believers</Text>
-        <Text style={styles.saw}> - Prophet muhammad ﷺ</Text>
+        <Text style={styles.qutoe}>Give charity without delay, for it stands in the way of calamity - Prophet muhammad ﷺ</Text>
+        {/* <Text style={styles.saw}> </Text> */}
 
         <TouchableOpacity
 
@@ -231,6 +249,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingTop: 15,
     color: 'white',
+    textAlign: 'center'
     // fontWeight: 'bold',
 
   },
