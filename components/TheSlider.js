@@ -12,36 +12,54 @@ export default function TheSlider({ navigation }) {
     setValue(roundedValue);
   };
 
-
+  const handleSubscribe = () => {
+    // Call backend API to create subscription with the selected value
+    fetch('http://127.0.0.1:8000/api/subscribe/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        amount: value
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Handle successful subscription creation
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle error
+      console.error(error);
+    });
+  };
 
   return (
-<>
-<Navbar navigation={navigation} />
-    <View style={styles.profileButtonContainer}>
-    {/* <Button title="Profile" onPress={handleProfile} /> */}
-  </View>
+    <>
+      <Navbar navigation={navigation} />
+      <View style={styles.profileButtonContainer}>
+        {/* <Button title="Profile" onPress={handleProfile} /> */}
+      </View>
 
-  
-
-    <View style={styles.container}>
-    <Button title="Charities we workw with"  onPress={() => navigation.navigate('Charities')}/>
-    <Text style={styles.title}>Enter donation amount</Text>
+      <View style={styles.container}>
+        <Button title="Charities we work with" onPress={() => navigation.navigate('Charities')} />
+        <Text style={styles.title}>Enter donation amount</Text>
    
-      <Text style={styles.value}>£{value.toFixed(2)}</Text>
+        <Text style={styles.value}>£{value.toFixed(2)}</Text>
 
-      <Slider
-        style={{ width: 300, height: 40 }}
-        minimumValue={1}
-        maximumValue={25}
-        step={0.5}
-        onValueChange={handleChange}
-        minimumTrackTintColor="#6BC5E6"
-        maximumTrackTintColor="#1c2331"
-        thumbTintColor="#6BC5E6"
-      />
-<Text style={styles.note}>Note that £{value.toFixed(2)} will be taken from your account on a weekly basis</Text>
-<Button title="Subscribe"  />
-    </View>
+        <Slider
+          style={{ width: 300, height: 40 }}
+          minimumValue={1}
+          maximumValue={25}
+          step={0.5}
+          onValueChange={handleChange}
+          minimumTrackTintColor="#6BC5E6"
+          maximumTrackTintColor="#1c2331"
+          thumbTintColor="#6BC5E6"
+        />
+        <Text style={styles.note}>Note that £{value.toFixed(2)} will be taken from your account on a weekly basis</Text>
+        <Button title="Subscribe" onPress={handleSubscribe} />
+      </View>
     </>
   );
 };
