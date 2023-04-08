@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View,  StyleSheet, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from './Navbar';
@@ -16,17 +16,20 @@ export default function CardForm({navigation}){
   // const handleSlider = () => {
   //   navigation.navigate('TheSlider');
   // }
-  // useEffect(() => {
-  //   getData();
-  // }, [])
 
-  // const saveData = async (token) => {
-  //   await AsyncStorage.setItem('MR_Token', token)
-  // }
-  // const getData = async () => {
-  //   const token = await AsyncStorage.getItem('MR_Token');
-  //   if (token) navigation.navigate("CardForm");
-  // }
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const saveData = async (token) => {
+    if (token) {
+      await AsyncStorage.setItem('MR_Token', token);
+    }
+  }
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('MR_Token');
+    if (token) navigation.navigate("CardForm");
+  }
 
   const handlePress = async () => {
     const token = await AsyncStorage.getItem('MR_Token');
@@ -34,7 +37,8 @@ export default function CardForm({navigation}){
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${token}`
+
       },
       body: JSON.stringify({
         plan_id: planId,
@@ -47,9 +51,14 @@ export default function CardForm({navigation}){
       }),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+      .then(res => {
+        saveData(res.token) })
+        .catch(error => {
+          console.log(error);
+          console.log("Invalid email or password");
+        });
+    };
+  
   
 
 
