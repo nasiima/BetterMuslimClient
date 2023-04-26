@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '50%', // set a fixed width
     height: '50%',
-    maxHeight: 200, /* adjust this value according to your needs */
+    maxHeight: 100, /* adjust this value according to your needs */
     overflowY: 'auto',
     
   },
@@ -189,9 +189,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   
-  // modalOptionButtonText: {
-  //   fontSize: 16,
-  // },
+  modalOptionButtonText: {
+    fontSize: 16,
+  },
   // selectedOptionContainer: {
   //   marginTop: 20,
   //   alignItems: 'center',
