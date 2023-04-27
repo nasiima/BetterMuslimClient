@@ -29,7 +29,7 @@ export default function Login({ navigation, props }) {
   }
   const getData = async () => {
     const token = await AsyncStorage.getItem('MR_Token');
-    if (token) navigation.navigate("CardForm");
+    if (token) navigation.navigate("TheSlider");
   }
 
   const getToken = async () => {
