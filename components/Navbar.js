@@ -9,7 +9,7 @@ export default function Navbar({ navigation }) {
         <>
             <View style={styles.navbar}>
                 <Button title="Profile" onPress={() => navigation.navigate('Profile')} />
-                <Button title="CardForm" onPress={() => navigation.navigate('CardForm')} />
+               
                 <Button title="TheSlider" onPress={() => navigation.navigate('TheSlider')} />
                 <Button title="Charities" onPress={() => navigation.navigate('Charities')} />
             </View>
